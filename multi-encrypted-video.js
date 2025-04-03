@@ -248,10 +248,66 @@ async function prefetchMediaData(mediaFileIds) {
   }
 }
 
+function switchStyle() {
+  // TODO: Get the path to the sheets properly.
+  const baseSheet = "file:///usr/local/google/home/austinosagie/multiple-player-demo/base.css";
+  const mosaicSheet = "file:///usr/local/google/home/austinosagie/multiple-player-demo/mosaic.css";
+  const primaryLayer = "primary-player-layer";
+  const secondaryLayer = "secondary-player-layer";
+  console.log(document.styleSheets);
+  for (const sheet of document.styleSheets) {
+    console.log(sheet.title);
+  }
+
+  let element = document.getElementById("sheetSwap");
+    console.log(element);
+    console.log(element.href);
+    console.log(baseSheet);
+    let pv = document.getElementById("pv");
+    let sv1 = document.getElementById("sv1");
+    let sv2 = document.getElementById("sv2");
+    let sv3 = document.getElementById("sv3");
+    let containerEle = document.getElementById("container");
+    if (element.href == baseSheet) {
+      let primaryLayerEle = document.getElementById(primaryLayer);
+      let secondaryLayerEle = document.getElementById(secondaryLayer);
+      primaryLayerEle.remove();
+      secondaryLayerEle.remove();
+      containerEle.appendChild(pv);
+      containerEle.appendChild(sv1);
+      containerEle.appendChild(sv2);
+      containerEle.appendChild(sv3);
+      element.href = mosaicSheet;
+    } else {
+      let primaryLayerEle = document.createElement("div");
+      primaryLayerEle.id = primaryLayer;
+      let secondaryLayerEle = document.createElement("div");
+      secondaryLayerEle.id = secondaryLayer;
+      containerEle.appendChild(primaryLayerEle);
+      containerEle.appendChild(secondaryLayerEle);
+      primaryLayerEle.appendChild(pv);
+      secondaryLayerEle.appendChild(sv1);
+      secondaryLayerEle.appendChild(sv2);
+      secondaryLayerEle.appendChild(sv3);
+      element.href = baseSheet;
+    }
+}
+
 async function main() {
   if (window.h5vcc && window.h5vcc.settings) {
     h5vcc.settings.set('MediaSource.EnableAvoidCopyingArrayBuffer', 1);
   }
+
+  addEventListener("click", function (event) {
+    switchStyle();
+  });
+
+  addEventListener("keydown", function (event) {
+    // Enter keys
+    if ([13, 32768].includes(event.keyCode)) {
+      switchStyle();
+    }
+  });
 
   const mediaFileIds = populateMediaFileIds();
   await prefetchMediaData(mediaFileIds);
