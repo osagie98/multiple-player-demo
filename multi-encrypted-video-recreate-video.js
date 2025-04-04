@@ -144,7 +144,7 @@ function isTunnelModeSupported(videoContentType) {
   return MediaSource.isTypeSupported(createTunnelModeContentType(videoContentType, 'true'));
 }
 
-async function play(videoElementId, videoFileId, optionalAudioFileId) { 
+async function play(videoElementId, videoFileId, optionalAudioFileId) {
   const isPrimaryVideo = videoElementId == 'primary-video';
   const isDrmVideo = !!MEDIA_FILES[videoFileId].licenseUrl;
 
@@ -250,6 +250,7 @@ async function prefetchMediaData(mediaFileIds) {
 }
 
 function switchStyle() {
+  // TODO: Get the path to the sheets properly.
   const baseSheet = "base";
   const mosaicSheet = "mosaic";
   const primaryLayer = "primary-player-layer";
@@ -262,6 +263,11 @@ function switchStyle() {
   // let element = document.getElementById("sheetSwap");
     // console.log(element);
     // console.log(element.href);
+    // Remove videos
+    document.getElementById("primary-video").remove();
+    document.getElementById("secondary-video-1").remove();
+    document.getElementById("secondary-video-2").remove();
+    document.getElementById("secondary-video-3").remove();
     console.log(baseSheet);
     let pv = document.getElementById("pv");
     let sv1 = document.getElementById("sv1");
@@ -295,114 +301,38 @@ function switchStyle() {
       mosaicStyle.setAttribute('media', "max-width: 1px");
       // element.href = baseSheet;
     }
+
+    // Recreate videos
+    let primaryVideo = document.createElement("video");
+    primaryVideo.id = "primary-video";
+    primaryVideo.setAttribute("muted", "1");
+    primaryVideo.setAttribute("autoplay", "1");
+    primaryVideo.setAttribute("loop", "");
+    pv.appendChild(primaryVideo);
+
+    let secondaryVideo1 = document.createElement("video");
+    secondaryVideo1.id = "secondary-video-1";
+    secondaryVideo1.setAttribute("muted", "1");
+    secondaryVideo1.setAttribute("autoplay", "1");
+    secondaryVideo1.setAttribute("loop", "");
+    sv1.appendChild(secondaryVideo1);
+
+    let secondaryVideo2 = document.createElement("video");
+    secondaryVideo2.id = "secondary-video-2";
+    secondaryVideo2.setAttribute("muted", "1");
+    secondaryVideo2.setAttribute("autoplay", "1");
+    secondaryVideo2.setAttribute("loop", "");
+    sv2.appendChild(secondaryVideo2);
+
+    let secondaryVideo3 = document.createElement("video");
+    secondaryVideo3.id = "secondary-video-3";
+    secondaryVideo3.setAttribute("muted", "1");
+    secondaryVideo3.setAttribute("autoplay", "1");
+    secondaryVideo3.setAttribute("loop", "");
+    sv3.appendChild(secondaryVideo3);
 }
 
-function getNextIndex(increment, currIndex) {
-  const max = 2;
-  if (increment) {
-    console.log('curr index is ' + currIndex + ', returning: ' + (currIndex + 1) % (max + 1));
-    return (currIndex + 1) % (max + 1);
-  }
-  if (currIndex == 0) {
-    return max;
-  }
-
-  return currIndex - 1;
-}
-
-const indexToDivId = {
-  0: {
-    'id': 'sv1'
-  },
-  1: {
-    'id': 'sv2'
-  },
-  2: {
-    'id': 'sv3'
-  },
-};
-
-function cycle(increment, videoElements) {
-  // Return if the base layout is hidden
-  const baseStyle = document.getElementById("base");
-  if (baseStyle.hasAttribute('media')) {
-    return;
-  }
-
-  console.log(videoElements);
-  let video1 = document.getElementById('secondary-video-1');
-  let video2 = document.getElementById('secondary-video-2');
-  let video3 = document.getElementById('secondary-video-3');
-
-  let firstSv = document.getElementById(videoElements[video1.id]['currentParent']);
-  firstSv.removeChild(video1);
-  let secondSv = document.getElementById(videoElements[video2.id]['currentParent']);
-  secondSv.removeChild(video2);
-  let thirdSv = document.getElementById(videoElements[video3.id]['currentParent']);
-  thirdSv.removeChild(video3);
-
-  // Find new parent divs and attach them
-  videoElements[video1.id]['parentIndex'] = getNextIndex(increment, videoElements[video1.id]['parentIndex']);
-  videoElements[video2.id]['parentIndex'] = getNextIndex(increment, videoElements[video2.id]['parentIndex']);
-  videoElements[video3.id]['parentIndex'] = getNextIndex(increment, videoElements[video3.id]['parentIndex']);
-
-  videoElements[video1.id]['currentParent'] = indexToDivId[videoElements[video1.id]['parentIndex']]['id'];
-  videoElements[video2.id]['currentParent'] = indexToDivId[videoElements[video2.id]['parentIndex']]['id'];
-  videoElements[video3.id]['currentParent'] = indexToDivId[videoElements[video3.id]['parentIndex']]['id'];
-
-  document.getElementById(videoElements[video1.id]['currentParent']).appendChild(video1);
-  document.getElementById(videoElements[video2.id]['currentParent']).appendChild(video2);
-  document.getElementById(videoElements[video3.id]['currentParent']).appendChild(video3);
-  console.log(videoElements);
-}
-
-async function main() {
-  if (window.h5vcc && window.h5vcc.settings) {
-    h5vcc.settings.set('MediaSource.EnableAvoidCopyingArrayBuffer', 1);
-  }
-
-  let videoElements = {
-    'secondary-video-1': {
-      currentParent: 'sv1',
-      parentIndex: 0,
-    },
-    'secondary-video-2': {
-      currentParent: 'sv2',
-      parentIndex: 1,
-    },
-    'secondary-video-3': {
-      currentParent: 'sv3',
-      parentIndex: 2,
-    },
-  };
-  console.log(videoElements);
-
-  addEventListener("click", function (event) {
-    switchStyle();
-  });
-
-  addEventListener("keydown", function (event) {
-    // Enter keys
-    console.log(event.keyCode);
-    if ([13, 32768].includes(event.keyCode)) {
-      switchStyle();
-    }
-
-    // Left key
-    if ([37, 32782].includes(event.keyCode)) {
-      cycle(false, videoElements);
-    }
-
-    // Right key
-    if ([39, 32781].includes(event.keyCode)) {
-      cycle(true, videoElements);
-    }
-  });
-
-  document.addEventListener("backbutton", function() {
-    window.location.replace('https://youtube.com/tv');
-  }, false);
-
+async function playVideos() {
   const mediaFileIds = populateMediaFileIds();
   await prefetchMediaData(mediaFileIds);
 
@@ -416,6 +346,27 @@ async function main() {
   window.setTimeout(function() {
     play('secondary-video-3', mediaFileIds['video3']);
   }, 6*1000);
+}
+
+async function main() {
+  if (window.h5vcc && window.h5vcc.settings) {
+    h5vcc.settings.set('MediaSource.EnableAvoidCopyingArrayBuffer', 1);
+  }
+
+  addEventListener("click", function (event) {
+    switchStyle();
+    playVideos();
+  });
+
+  addEventListener("keydown", function (event) {
+    // Enter keys
+    if ([13, 32768].includes(event.keyCode)) {
+      switchStyle();
+      playVideos();
+    }
+  });
+
+  playVideos();
 }
 
 
