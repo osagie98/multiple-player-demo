@@ -75,25 +75,29 @@ const MEDIA_FILES = {
 
   'primary-video' : {
     contentType: 'video/webm; codecs="vp9"',
-    url: 'https://osagie98.github.io/multiple-player-demo/video-1.webm',
+    // url: 'https://osagie98.github.io/multiple-player-demo/video-1.webm',
+    url: 'video-1-short.webm',
     maxVideoCapabilities: 'width=1920; height=1080',
   },
 
   'secondary-video-1' : {
     contentType: 'video/webm; codecs="vp9"',
-    url: 'https://osagie98.github.io/multiple-player-demo/video-2.webm',
+    // url: 'https://osagie98.github.io/multiple-player-demo/video-2.webm',
+    url: 'video-2-short.webm',
     maxVideoCapabilities: 'width=1920; height=1080',
   },
 
   'secondary-video-2' : {
     contentType: 'video/webm; codecs="vp9"',
-    url: 'https://osagie98.github.io/multiple-player-demo/video-3.webm',
+    // url: 'https://osagie98.github.io/multiple-player-demo/video-3.webm',
+    url: 'video-3-short.webm',
     maxVideoCapabilities: 'width=1920; height=1080',
   },
 
   'secondary-video-3' : {
     contentType: 'video/webm; codecs="vp9"',
-    url: 'https://osagie98.github.io/multiple-player-demo/video-4.webm',
+    // url: 'https://osagie98.github.io/multiple-player-demo/video-4.webm',
+    url: 'video-4-short.webm',
     maxVideoCapabilities: 'width=1920; height=1080',
   },
 };
@@ -334,6 +338,21 @@ function getNextIndex(increment, currIndex) {
   return currIndex - 1;
 }
 
+// const indexToDivId = {
+//   0: {
+//     'id': 'pv'
+//   },
+//   1: {
+//     'id': 'sv1'
+//   },
+//   2: {
+//     'id': 'sv2'
+//   },
+//   3: {
+//     'id': 'sv3'
+//   },
+// };
+
 const indexToDivId = {
   0: {
     'id': 'sv1'
@@ -346,18 +365,41 @@ const indexToDivId = {
   },
 };
 
-function cycle(increment, videoElements) {
+
+let videoElements = {
+  // 'primary-video': {
+  //   currentParent: 'pv',
+  //   parentIndex: 0,
+  // },
+  'secondary-video-1': {
+    currentParent: 'sv1',
+    parentIndex: 1,
+  },
+  'secondary-video-2': {
+    currentParent: 'sv2',
+    parentIndex: 2,
+  },
+  'secondary-video-3': {
+    currentParent: 'sv3',
+    parentIndex: 3,
+  },
+};
+
+function cycle(increment) {
+  console.log(videoElements);
   // Return if the base layout is hidden
   const baseStyle = document.getElementById("base");
   if (baseStyle.hasAttribute('media')) {
     return;
   }
 
-  console.log(videoElements);
+  // let primaryVideo = document.getElementById('primary-video');
   let video1 = document.getElementById('secondary-video-1');
   let video2 = document.getElementById('secondary-video-2');
   let video3 = document.getElementById('secondary-video-3');
 
+  // let pv = document.getElementById(videoElements[primaryVideo.id]['currentParent']);
+  // pv.removeChild(primaryVideo);
   let firstSv = document.getElementById(videoElements[video1.id]['currentParent']);
   firstSv.removeChild(video1);
   let secondSv = document.getElementById(videoElements[video2.id]['currentParent']);
@@ -366,18 +408,21 @@ function cycle(increment, videoElements) {
   thirdSv.removeChild(video3);
 
   // Find new parent divs and attach them
+  // videoElements[primaryVideo.id]['parentIndex'] = getNextIndex(increment, videoElements[primaryVideo.id]['parentIndex']);
   videoElements[video1.id]['parentIndex'] = getNextIndex(increment, videoElements[video1.id]['parentIndex']);
   videoElements[video2.id]['parentIndex'] = getNextIndex(increment, videoElements[video2.id]['parentIndex']);
   videoElements[video3.id]['parentIndex'] = getNextIndex(increment, videoElements[video3.id]['parentIndex']);
 
+  // videoElements[primaryVideo.id]['currentParent'] = indexToDivId[videoElements[primaryVideo.id]['parentIndex']]['id'];
   videoElements[video1.id]['currentParent'] = indexToDivId[videoElements[video1.id]['parentIndex']]['id'];
   videoElements[video2.id]['currentParent'] = indexToDivId[videoElements[video2.id]['parentIndex']]['id'];
   videoElements[video3.id]['currentParent'] = indexToDivId[videoElements[video3.id]['parentIndex']]['id'];
+  console.log(videoElements);
 
+  // document.getElementById(videoElements[primaryVideo.id]['currentParent']).appendChild(primaryVideo);
   document.getElementById(videoElements[video1.id]['currentParent']).appendChild(video1);
   document.getElementById(videoElements[video2.id]['currentParent']).appendChild(video2);
   document.getElementById(videoElements[video3.id]['currentParent']).appendChild(video3);
-  console.log(videoElements);
 }
 
 async function main() {
@@ -385,20 +430,24 @@ async function main() {
     h5vcc.settings.set('MediaSource.EnableAvoidCopyingArrayBuffer', 1);
   }
 
-  let videoElements = {
-    'secondary-video-1': {
-      currentParent: 'sv1',
-      parentIndex: 0,
-    },
-    'secondary-video-2': {
-      currentParent: 'sv2',
-      parentIndex: 1,
-    },
-    'secondary-video-3': {
-      currentParent: 'sv3',
-      parentIndex: 2,
-    },
-  };
+  // var videoElements = {
+  //   'primary-video': {
+  //     currentParent: 'pv',
+  //     parentIndex: 0,
+  //   },
+  //   'secondary-video-1': {
+  //     currentParent: 'sv1',
+  //     parentIndex: 1,
+  //   },
+  //   'secondary-video-2': {
+  //     currentParent: 'sv2',
+  //     parentIndex: 2,
+  //   },
+  //   'secondary-video-3': {
+  //     currentParent: 'sv3',
+  //     parentIndex: 3,
+  //   },
+  // };
   console.log(videoElements);
 
   addEventListener("click", function (event) {
@@ -407,19 +456,18 @@ async function main() {
 
   addEventListener("keydown", function (event) {
     // Enter keys
-    console.log(event.keyCode);
     if ([13, 32768].includes(event.keyCode)) {
       switchStyle();
     }
 
     // Left key
     if ([37, 32782].includes(event.keyCode)) {
-      cycle(false, videoElements);
+      cycle(false);
     }
 
     // Right key
     if ([39, 32781].includes(event.keyCode)) {
-      cycle(true, videoElements);
+      cycle(true);
     }
   });
 
