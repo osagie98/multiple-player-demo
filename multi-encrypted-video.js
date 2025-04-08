@@ -100,6 +100,34 @@ const MEDIA_FILES = {
     url: 'video-4-short.webm',
     maxVideoCapabilities: 'width=1920; height=1080',
   },
+
+  // 'primary-video' : {
+  //   contentType: 'video/mp4; codecs="av01.0.08M.08"; framerate=30; width=1920; height=1080',
+  //   // url: 'https://osagie98.github.io/multiple-player-demo/video-1.webm',
+  //   url: 'test-av1.mp4',
+  //   maxVideoCapabilities: 'width=1920; height=1080',
+  // },
+
+  // 'secondary-video-1' : {
+  //   contentType: 'video/mp4; codecs="av01.0.05M.08"; framerate=30; width=1280; height=720',
+  //   // url: 'https://osagie98.github.io/multiple-player-demo/video-2.webm',
+  //   url: 'av1-720p-1.mp4',
+  //   maxVideoCapabilities: 'width=1280; height=720',
+  // },
+
+  // 'secondary-video-2' : {
+  //   contentType: 'video/mp4; codecs="av01.0.05M.08"; framerate=30; width=1280; height=720',
+  //   // url: 'https://osagie98.github.io/multiple-player-demo/video-3.webm',
+  //   url: 'av1-720p-2.mp4',
+  //   maxVideoCapabilities: 'width=1280; height=720',
+  // },
+
+  // 'secondary-video-3' : {
+  //   contentType: 'video/mp4; codecs="av01.0.05M.08"; framerate=30; width=1280; height=720',
+  //   // url: 'https://osagie98.github.io/multiple-player-demo/video-4.webm',
+  //   url: 'av1-720p-3.mp4',
+  //   maxVideoCapabilities: 'width=1280; height=720',
+  // }
 };
 
 mediaCache = {}
