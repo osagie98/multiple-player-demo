@@ -20,10 +20,6 @@
 <head>
   <title>Multi Encrypted Video</title>
   <style id="base">
-    body {
-      margin: 0;
-    }
-
     #primary-player-layer {
       width: 100%;
       height: 100%;
@@ -39,7 +35,7 @@
       top: 60%;
       height: 40%;
       width: 100%;
-      padding: 24px;
+      /* padding: 24px; */
       display: flex;
       justify-content: center;
     }
@@ -48,65 +44,73 @@
       width: 426px;
       height: 240px;
       display: inline-block;
-      margin: 24px;
+    margin: 24px;
       vertical-align: middle;
-      background-color: rgba(33, 33, 33, .75);
+      padding: 0;
+      background-color: rgba(33, 33, 33, 0);
     }
   </style>
   <style id="mosaic" media="max-width: 1px">
-    body {
-      margin: 0;
-    }
-
     #container {
       width: 100%;
       height: 100%;
       overflow: hidden;
+      /* margin: 0; */
+      /* padding: 0; */
     }
 
     #pv {
       justify-content: center;
       align-items: center;
       box-sizing: border-box;
-      padding: 10px;
       width: 50%;
       height: 50%;
       float: left;
+      padding: 0;
     }
 
     #sv1 {
       justify-content: center;
       align-items: center;
       box-sizing: border-box;
-      padding: 10px;
       width: 50%;
       height: 50%;
       float: left;
+      padding: 0;
+      overflow: hidden;
+      border-radius: 1.1rem;
     }
 
     #sv2 {
       justify-content: center;
       align-items: center;
       box-sizing: border-box;
-      padding: 10px;
       width: 50%;
       height: 50%;
       float: left;
+      padding: 0;
     }
 
     #sv3 {
       justify-content: center;
       align-items: center;
       box-sizing: border-box;
-      padding: 10px;
       width: 50%;
       height: 50%;
       float: left;
+      padding: 0;
     }
 
     video {
       width: 95%;
       height: 95%;
+    }
+  </style>
+  <style>
+    body {
+      margin: 0;
+      background-color: rgb(39, 39, 39);
+      height: 95vh;
     }
   </style>
 

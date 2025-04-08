@@ -72,6 +72,30 @@ const MEDIA_FILES = {
     url: 'https://jasonzhangxx.github.io/test/test-materials_media_big-buck-bunny-h264-240p-30fps.mp4',
     maxVideoCapabilities: 'width=320; height=240',
   },
+
+  'primary-video' : {
+    contentType: 'video/webm; codecs="vp9"',
+    url: 'https://osagie98.github.io/multiple-player-demo/video-1.webm',
+    maxVideoCapabilities: 'width=1920; height=1080',
+  },
+
+  'secondary-video-1' : {
+    contentType: 'video/webm; codecs="vp9"',
+    url: 'https://osagie98.github.io/multiple-player-demo/video-2.webm',
+    maxVideoCapabilities: 'width=1920; height=1080',
+  },
+
+  'secondary-video-2' : {
+    contentType: 'video/webm; codecs="vp9"',
+    url: 'https://osagie98.github.io/multiple-player-demo/video-3.webm',
+    maxVideoCapabilities: 'width=1920; height=1080',
+  },
+
+  'secondary-video-3' : {
+    contentType: 'video/webm; codecs="vp9"',
+    url: 'https://osagie98.github.io/multiple-player-demo/video-4.webm',
+    maxVideoCapabilities: 'width=1920; height=1080',
+  },
 };
 
 mediaCache = {}
@@ -233,11 +257,11 @@ function populateMediaFileIds() {
   var mediaFileIds = [];
   const getParameters = getGetParameters();
 
-  mediaFileIds['video0'] = getParameters['video0'] ?? 'vp9-1080p-60fps-7s_clear';
+  mediaFileIds['video0'] = getParameters['video0'] ?? 'primary-video';
   // mediaFileIds['video1'] = getParameters['video1'] ?? 'vp9-1080p-60fps-7s_clear';
-  mediaFileIds['video1'] = getParameters['video1'] ?? 'h264-240p-30fps';
-  mediaFileIds['video2'] = getParameters['video2'] ?? 'h264-240p-30fps';
-  mediaFileIds['video3'] = getParameters['video3'] ?? 'h264-240p-30fps';
+  mediaFileIds['video1'] = getParameters['video1'] ?? 'secondary-video-1';
+  mediaFileIds['video2'] = getParameters['video2'] ?? 'secondary-video-2';
+  mediaFileIds['video3'] = getParameters['video3'] ?? 'secondary-video-3';
   mediaFileIds['audio'] = getParameters['audio'] ?? 'opus_clear';
 
   return mediaFileIds;
