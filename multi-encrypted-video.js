@@ -76,28 +76,28 @@ const MEDIA_FILES = {
   'primary-video' : {
     contentType: 'video/webm; codecs="vp9"',
     // url: 'https://osagie98.github.io/multiple-player-demo/video-1.webm',
-    url: 'video-1-30s.webm',
+    url: 'video-1-1m.webm',
     maxVideoCapabilities: 'width=1920; height=1080',
   },
 
   'secondary-video-1' : {
     contentType: 'video/webm; codecs="vp9"',
     // url: 'https://osagie98.github.io/multiple-player-demo/video-2.webm',
-    url: 'video-2-30s.webm',
+    url: 'video-2-1m.webm',
     maxVideoCapabilities: 'width=1920; height=1080',
   },
 
   'secondary-video-2' : {
     contentType: 'video/webm; codecs="vp9"',
     // url: 'https://osagie98.github.io/multiple-player-demo/video-3.webm',
-    url: 'video-3-30s.webm',
+    url: 'video-3-1m.webm',
     maxVideoCapabilities: 'width=1920; height=1080',
   },
 
   'secondary-video-3' : {
     contentType: 'video/webm; codecs="vp9"',
     // url: 'https://osagie98.github.io/multiple-player-demo/video-4.webm',
-    url: 'video-4-30s.webm',
+    url: 'video-4-1m.webm',
     maxVideoCapabilities: 'width=1920; height=1080',
   },
 };
